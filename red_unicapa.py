@@ -33,3 +33,30 @@ def sigmoide_derivada(x):
 def forward_propagation(X, pesos, sesgo):
     z = np.dot(X, pesos) + sesgo  # Producto punto entre entradas y pesos + sesgo
     return sigmoide(z)  # Aplicar activación
+
+# Entrenamiento de la red neuronal
+for epoch in range(epochs):
+    # Forward propagation
+    salida = forward_propagation(X, pesos, sesgo)
+    
+    # Calcular el error (deseado - predicción)
+    error = D - salida
+    
+    # Retropropagación del error y ajuste de los pesos
+    ajuste = error * sigmoide_derivada(salida)
+    
+    # Ajustar los pesos y el sesgo
+    pesos += np.dot(X.T, ajuste) * learning_rate
+    sesgo += np.sum(ajuste, axis=0, keepdims=True) * learning_rate
+    
+    # Imprimir el error promedio cada 1000 épocas
+    if epoch % 1000 == 0:
+        error_promedio = np.mean(np.abs(error))
+        print(f"Época {epoch}: Error promedio: {error_promedio}")
+
+# Paso 2: Ejecutar la red para obtener la salida final después del entrenamiento
+salida_entrenada = forward_propagation(X, pesos, sesgo)
+
+# Redondear las predicciones a 0 o 1
+salida_entrenada_binaria = np.round(salida_entrenada)
+
