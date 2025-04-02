@@ -78,3 +78,48 @@ ax.grid(True, color='lightgray', linestyle='--', linewidth=0.8, alpha=0.6)
 
 # Línea horizontal de referencia en 0.5
 ax.axhline(y=0.5, color='white', linestyle=':', linewidth=1.2, alpha=0.7)
+
+# Valores deseados 
+ax.scatter(range(len(D)), D[:, 0], color=colors['d1']['deseado'], 
+           label='Deseado d1', alpha=1, s=130, edgecolors='white', linewidths=2)
+ax.scatter(np.array(range(len(D))) + desplazamiento, D[:, 1], 
+           color=colors['d2']['deseado'], label='Deseado d2', alpha=1, 
+           s=130, edgecolors='white', linewidths=2)
+ax.scatter(range(len(D)), D[:, 2], color=colors['d3']['deseado'], 
+           label='Deseado d3', alpha=1, s=130, edgecolors='white', linewidths=2)
+
+# Predicciones 
+ax.scatter(range(len(salida_entrenada)), salida_entrenada[:, 0], 
+           color=colors['d1']['prediccion'], marker='D', 
+           label='Predicción d1', alpha=0.8, s=100, linewidth=1.5)
+ax.scatter(np.array(range(len(salida_entrenada))) + desplazamiento, 
+           salida_entrenada[:, 1], color=colors['d2']['prediccion'], 
+           marker='D', label='Predicción d2', alpha=0.8, s=100, linewidth=1.5)
+ax.scatter(range(len(salida_entrenada)), salida_entrenada[:, 2], 
+           color=colors['d3']['prediccion'], marker='D', 
+           label='Predicción d3', alpha=0.8, s=100, linewidth=1.5)
+
+# Configuración de ejes y bordes
+ax.set_facecolor('black')
+for spine in ax.spines.values():
+    spine.set_color('white')
+    spine.set_linewidth(1.5)
+
+# Ajustes de ejes y etiquetas
+ax.set_ylim(-0.1, 1.1)
+ax.set_xlabel('', color='white', fontsize=12, labelpad=10)
+ax.set_ylabel('Activación (0 o 1)', color='white', fontsize=12, labelpad=10)
+ax.tick_params(colors='white', which='both', labelsize=10)
+
+# Leyenda 
+legend = ax.legend(facecolor='#222222', edgecolor='white', labelcolor='white',
+                  fontsize=10, bbox_to_anchor=(1.02, 1), loc='upper left',
+                  title='Resultados', title_fontsize=11)
+legend.get_title().set_color('white')
+
+# Título
+plt.title('Comparación: Salidas Deseadas vs Predicciones de la Red Neuronal', 
+          color='white', fontsize=14, pad=20)
+
+plt.tight_layout()
+plt.show(block=False)
