@@ -60,3 +60,21 @@ salida_entrenada = forward_propagation(X, pesos, sesgo)
 # Redondear las predicciones a 0 o 1
 salida_entrenada_binaria = np.round(salida_entrenada)
 
+# Paso 3: Visualización de las salidas deseadas vs predicciones
+fig, ax = plt.subplots(figsize=(12, 7), facecolor='black')
+
+# Configurar colores personalizados 
+colors = {
+    'd1': {'deseado': '#0066FF', 'prediccion': '#7fbfff'},  # Azul eléctrico
+    'd2': {'deseado': '#FF6600', 'prediccion': '#ffb07f'},  # Naranja brillante
+    'd3': {'deseado': '#CC00FF', 'prediccion': '#c5a3d8'}   # Morado neón
+}
+
+# Desplazamiento 
+desplazamiento = 0.05
+
+# Configuración de grid 
+ax.grid(True, color='lightgray', linestyle='--', linewidth=0.8, alpha=0.6)
+
+# Línea horizontal de referencia en 0.5
+ax.axhline(y=0.5, color='white', linestyle=':', linewidth=1.2, alpha=0.7)
