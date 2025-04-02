@@ -123,3 +123,54 @@ plt.title('Comparación: Salidas Deseadas vs Predicciones de la Red Neuronal',
 
 plt.tight_layout()
 plt.show(block=False)
+
+# Paso 4: Matrices de confusión 
+plt.figure(facecolor='black', figsize=(14, 5.5))  # Tamaño optimizado
+
+# Crear una disposición de cuadrícula para organizar los elementos
+grid = plt.GridSpec(2, 3, height_ratios=[0.1, 1], hspace=0.3, wspace=0.4)
+
+# Crear los ejes para las matrices
+ax1 = plt.subplot(grid[1, 0])
+ax2 = plt.subplot(grid[1, 1])
+ax3 = plt.subplot(grid[1, 2])
+axs = [ax1, ax2, ax3]
+
+# Eje para la barra de color 
+cbar_ax = plt.subplot(grid[0, :])
+
+# Colormap para matrices
+cmap = 'viridis'
+vmin = min([confusion_matrix(D[:, i], salida_entrenada_binaria[:, i]).min() for i in range(3)])
+vmax = max([confusion_matrix(D[:, i], salida_entrenada_binaria[:, i]).max() for i in range(3)])
+
+for i in range(3):
+    matriz_confusion = confusion_matrix(D[:, i], salida_entrenada_binaria[:, i])
+    im = axs[i].matshow(matriz_confusion, cmap=cmap, vmin=vmin, vmax=vmax)
+    
+    # Configuración de títulos y etiquetas
+    axs[i].set_title(f'Matriz d{i+1}', color='white', fontsize=12, pad=10)
+    axs[i].set_xlabel('Predicción', color='white', fontsize=10)
+    axs[i].set_ylabel('Real', color='white', fontsize=10)
+    axs[i].xaxis.set_ticks_position('bottom')
+    axs[i].tick_params(colors='white', labelsize=9)
+    
+    # Grid en matrices
+    axs[i].grid(which='major', color='white', linestyle='--', linewidth=0.5, alpha=0.3)
+    
+    # Etiquetas en celdas 
+    for (j, k), value in np.ndenumerate(matriz_confusion):
+        axs[i].text(k, j, f'{value}', ha='center', va='center', 
+                   color='white', fontsize=12, fontweight='bold')
+
+# Añadir barra de color
+cbar = plt.colorbar(im, cax=cbar_ax, orientation='horizontal')
+cbar.ax.tick_params(colors='white')
+cbar.ax.xaxis.set_tick_params(color='white')
+plt.setp(cbar.ax.get_xticklabels(), color='white')
+cbar_ax.set_title('Escala de Valores', color='white', pad=5)
+
+# Ajustar el layout para evitar solapamientos
+plt.tight_layout()
+
+plt.show()
